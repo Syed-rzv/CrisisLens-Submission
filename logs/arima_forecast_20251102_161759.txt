@@ -1,0 +1,7 @@
+============================= 
+ARIMA Forecast Run 
+Started at 02/11/2025 16:17:59.80 
+============================= 
+The system cannot find the path specified.
+ERROR: Forecast failed with exit code 3 
+ 

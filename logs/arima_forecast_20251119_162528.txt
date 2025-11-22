@@ -1,0 +1,32 @@
+============================= 
+ARIMA Forecast Run 
+Started at 19/11/2025 16:25:28.92 
+============================= 
+2025-11-19 16:25:46,799 [INFO] ARIMA forecast service starting
+2025-11-19 16:25:46,815 [INFO] Forecast horizon: 30 days
+2025-11-19 16:25:46,815 [INFO] 
+Generating ARIMA forecast: Overall
+2025-11-19 16:25:48,777 [INFO] Training on 1694 days of historical data
+2025-11-19 16:26:53,441 [INFO] Selected ARIMA order: (1, 0, 0), Seasonal order: (2, 1, 0, 7)
+2025-11-19 16:26:55,101 [INFO] Saved 30 forecasts for Overall
+2025-11-19 16:26:55,111 [INFO] Generating forecasts for 3 emergency types
+2025-11-19 16:26:55,112 [INFO] 
+Generating ARIMA forecast: EMS
+2025-11-19 16:26:59,556 [INFO] Training on 1694 days of historical data
+2025-11-19 16:29:35,890 [INFO] Selected ARIMA order: (0, 0, 1), Seasonal order: (2, 1, 1, 7)
+2025-11-19 16:29:40,335 [INFO] Saved 30 forecasts for EMS
+2025-11-19 16:29:40,336 [INFO] 
+Generating ARIMA forecast: Fire
+2025-11-19 16:29:42,783 [INFO] Training on 1694 days of historical data
+2025-11-19 16:30:35,493 [INFO] Selected ARIMA order: (1, 0, 0), Seasonal order: (2, 1, 0, 7)
+2025-11-19 16:30:36,602 [INFO] Saved 30 forecasts for Fire
+2025-11-19 16:30:36,603 [INFO] 
+Generating ARIMA forecast: Traffic
+2025-11-19 16:30:39,877 [INFO] Training on 1694 days of historical data
+2025-11-19 16:31:46,981 [INFO] Selected ARIMA order: (1, 0, 0), Seasonal order: (2, 1, 0, 7)
+2025-11-19 16:31:48,115 [INFO] Saved 30 forecasts for Traffic
+2025-11-19 16:31:48,116 [INFO] 
+ARIMA forecast service complete
+2025-11-19 16:31:48,116 [INFO] Forecasts generated at 2025-11-19 16:31:48
+SUCCESS: Forecast completed at 19/11/2025 16:31:50.34 
+ 

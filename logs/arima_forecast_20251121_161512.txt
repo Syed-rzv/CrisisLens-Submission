@@ -1,0 +1,7 @@
+============================= 
+ARIMA Forecast Run 
+Started at 21/11/2025 16:15:12.69 
+============================= 
+C:\Users\97150\anaconda3\python.exe: can't open file 'C:\\Capstone\\crisislens-API\\arima_forecast_service.py': [Errno 2] No such file or directory
+ERROR: Forecast failed with exit code 2 
+ 
