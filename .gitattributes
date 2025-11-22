@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 Data/911.csv filter=lfs diff=lfs merge=lfs -text
+database/*.sql filter=lfs diff=lfs merge=lfs -text
