@@ -50,7 +50,7 @@ git lfs install
 1. Clone the repository:
 
 ```cmd
-cd Desktop
+cd Desktop (or any place of your choice)
 git clone https://github.com/Syed-rzv/CrisisLens-Submission.git
 cd CrisisLens-Submission
 ```
