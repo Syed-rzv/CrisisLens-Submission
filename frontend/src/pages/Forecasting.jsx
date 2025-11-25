@@ -91,7 +91,7 @@ const Forecasting = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
               <p className="text-gray-400 mb-2">
-                <span className="text-green-500 font-semibold">Model:</span> ARIMA (AutoRegressive Integrated Moving Average)
+                <span className="text-green-500 font-semibold">Model:</span> SARIMA (AutoRegressive Integrated Moving Average)
               </p>
               <p className="text-gray-400 mb-2">
                 <span className="text-green-500 font-semibold">Accuracy:</span> 9.93% MAPE (Mean Absolute Percentage Error)

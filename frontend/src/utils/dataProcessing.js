@@ -61,7 +61,9 @@ export const aggregateTimelineData = (data) => {
 export const aggregateTypeData = (data) => {
   const counts = {};
   data.forEach(item => { counts[item.emergencyType] = (counts[item.emergencyType] || 0) + 1; }); 
-  return Object.entries(counts).map(([type, count]) => ({ type, count }));
+  return Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([type, count]) => ({ type, count }));
 
 };
 

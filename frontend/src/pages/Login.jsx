@@ -89,7 +89,7 @@ export default function Login() {
           </form>
 
           <div className="mt-6 text-center text-xs text-gray-500">
-            Dubai Police - Emergency Call Analytics Platform
+            Crisislens - Emergency Call Analytics Platform
           </div>
         </div>
       </div>
