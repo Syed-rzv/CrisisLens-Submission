@@ -2,7 +2,6 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
-// Helper function for API calls
 const fetchWithErrorHandling = async (endpoint, options = {}) => {
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -24,10 +23,7 @@ const fetchWithErrorHandling = async (endpoint, options = {}) => {
   }
 };
 
-// Emergency Calls API
-
 export const api = {
-  // Gets all calls with optional filters and pagination
   getCalls: async (params = {}) => {
     const queryParams = new URLSearchParams();
     
@@ -44,20 +40,16 @@ export const api = {
     return await fetchWithErrorHandling(endpoint);
   },
 
-  // Get latest calls
   getLatestCalls: async (limit = 10) => {
     return await fetchWithErrorHandling(`/calls/latest?limit=${limit}`);
   },
 
-  // Submit a new call
   ingestCall: async (callData) => {
     return await fetchWithErrorHandling('/calls', {
       method: 'POST',
       body: JSON.stringify(callData),
     });
   },
-
-  // Statistics API
 
   getTypeCounts: async () => {
     return await fetchWithErrorHandling('/stats/counts');
@@ -70,14 +62,11 @@ export const api = {
   getTownshipCounts: async () => {
     return await fetchWithErrorHandling('/stats/township');
   },
-// Get district-wise call counts (alias for township)
+
   getDistrictCounts: async () => {
     return await fetchWithErrorHandling('/stats/township');
   },
 
-  // Forecast API
-
-  // Get forecast data with optional filters
   getForecast: async (params = {}) => {
     const queryParams = new URLSearchParams();
     
@@ -92,9 +81,6 @@ export const api = {
     return await fetchWithErrorHandling(endpoint);
   },
 
-  // Health Check
-
-  // Check if API is available
   healthCheck: async () => {
     try {
       const response = await fetchWithErrorHandling('/');
@@ -103,12 +89,24 @@ export const api = {
       return { available: false, error: error.message };
     }
   },
+
+  getTimelineAggregated: async (params = {}) => {
+    const queryParams = new URLSearchParams();
+    
+    if (params.emergency_type && params.emergency_type !== 'all') {
+      queryParams.append('emergency_type', params.emergency_type);
+    }
+    if (params.start_date) queryParams.append('start_date', params.start_date);
+    if (params.end_date) queryParams.append('end_date', params.end_date);
+
+    const queryString = queryParams.toString();
+    const endpoint = `/timeline-aggregated${queryString ? `?${queryString}` : ''}`;
+    
+    return await fetchWithErrorHandling(endpoint);
+  },
 };
 
-// Data Processing Utilities for API responses
-
 export const processApiData = {
-  // Transform API calls data to match dashboard format
   transformCallsData: (apiResponse) => {
     const calls = apiResponse.results || apiResponse;
     
@@ -128,37 +126,38 @@ export const processApiData = {
       callerGender: call.caller_gender,
       callerAge: parseInt(call.caller_age) || null,
       source: call.source,
-    })); },
+    }));
+  },
 
-  //  type counts for pie chart
   transformTypeCounts: (apiResponse) => {
     return apiResponse.map(item => ({
       type: item.emergency_type,
       subtype: item.emergency_subtype,
       count: item.count,
-    })); },
+    }));
+  },
 
-  //  daily stats for timeline chart
   transformDailyStats: (apiResponse) => {
     return apiResponse.map(item => ({
       date: item.date,
       count: item.count,
-    })); },
+    }));
+  },
 
   transformTownshipCounts: (apiResponse) => {
     return apiResponse.map(item => ({
       township: item.township,
       count: item.count,
-    })); },
+    }));
+  },
 
-  //  district counts (alias for township)
   transformDistrictCounts: (apiResponse) => {
     return apiResponse.map(item => ({
       district: item.township || item.district,
       count: item.count,
-    })); },
+    }));
+  },
   
-  //  forecast data
   transformForecastData: (apiResponse) => {
     return apiResponse.map(item => ({
       forecastDate: item.forecast_date,
@@ -171,7 +170,24 @@ export const processApiData = {
       modelUsed: item.model_used,
       source: item.source,
       generatedAt: item.generated_at,
-    })); },
+    }));
+  },
+
+  transformTimelineAggregated: (apiResponse) => {
+    const grouped = {};
+    
+    apiResponse.forEach(item => {
+      const date = new Date(item.date);
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      
+      if (!grouped[monthKey]) {
+        grouped[monthKey] = { month: monthKey, count: 0, date: date };
+      }
+      grouped[monthKey].count += item.count;
+    });
+    
+    return Object.values(grouped).sort((a, b) => a.date - b.date);
+  },
 };
 
 export default api;

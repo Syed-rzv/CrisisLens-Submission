@@ -31,7 +31,7 @@ const Dashboard = () => {
   const [expandedChart, setExpandedChart] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState({ title: '', data: [], columns: [] });
-  const { data: rawData, loading } = useDashboardData();
+  const { data: rawData, timelineData: aggregatedTimelineData, loading } = useDashboardData();
   const { filters, setFilters } = useFilters();
 
   const filteredData = useMemo(() => {
@@ -40,8 +40,9 @@ const Dashboard = () => {
   }, [rawData, filters]);
 
   const kpis = useMemo(() => calculateKPIs(filteredData), [filteredData]);
-  const timelineData = useMemo(() => aggregateTimelineData(filteredData), [filteredData]);
-  
+  const timelineData = useMemo(() => { return aggregatedTimelineData && aggregatedTimelineData.length > 0 ? aggregatedTimelineData 
+      : aggregateTimelineData(filteredData);}, [aggregatedTimelineData, filteredData]);
+
   const typeData = useMemo(() => {
     const data = aggregateTypeData(filteredData);
     const total = data.reduce((sum, d) => sum + d.count, 0);

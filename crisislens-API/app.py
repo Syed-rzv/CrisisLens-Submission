@@ -310,6 +310,57 @@ def ingest_call():
         print(f" Database error: {str(e)}")  #debugging
         return jsonify({"error": str(e)}), 500
 
+
+#Aggregated data for our timelline chart
+@app.route('/timeline-aggregated', methods=['GET'])
+def get_timeline_aggregated():
+    try:
+        emergency_type = request.args.get('emergency_type')
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
+        
+        query = """
+            SELECT 
+                DATE(timestamp) as date,
+                COUNT(*) as count,
+                emergency_type
+            FROM emergency_data
+            WHERE emergency_type IN ('EMS', 'Fire', 'Traffic')
+        """
+        
+        params = []
+        
+        if emergency_type and emergency_type != 'all':
+            query += " AND emergency_type = %s"
+            params.append(emergency_type)
+        
+        if start_date:
+            query += " AND DATE(timestamp) >= %s"
+            params.append(start_date)
+        
+        if end_date:
+            query += " AND DATE(timestamp) <= %s"
+            params.append(end_date)
+        
+        query += """
+            GROUP BY DATE(timestamp), emergency_type
+            ORDER BY date
+        """
+        
+        with get_connection() as conn:
+            with conn.cursor(dictionary=True) as cursor:
+                cursor.execute(query, params if params else None)
+                results = cursor.fetchall()
+        
+        for row in results:
+            row['date'] = row['date'].strftime('%Y-%m-%d')
+        
+        return jsonify(results), 200
+        
+    except Exception as e:
+        print(f"Timeline aggregation error: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 #Stats Endpoints 
 @app.route('/stats/counts', methods=['GET'])
 def get_type_counts():
@@ -362,7 +413,7 @@ CACHE_DURATION = 300  # 5 minutes
 
 @app.route('/clusters', methods=['GET'])
 def get_clusters():
-    #DBSCAN clustering analysis endpoint.
+    #DBSCAN clustering analysis endpoint
     
     try:
         time_range = request.args.get('time_range', 'all')

@@ -3,8 +3,9 @@ import api, { processApiData } from '../services/api';
 import { generateMockData } from '../data/mockData';
 import { API_CONFIG } from '../config/constants';
 
- const useDashboardData = (filters = {}) => {
+const useDashboardData = (filters = {}) => {
   const [data, setData] = useState([]);
+  const [timelineData, setTimelineData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [usingMockData, setUsingMockData] = useState(false);
@@ -24,14 +25,12 @@ import { API_CONFIG } from '../config/constants';
     initialize();
   }, []);
 
-  // Fetch data from API or use mock data
   const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
       if (!apiAvailable) {
-        // Use mock data if API is not available
         console.log('Using mock data (API unavailable)');
         const mockData = generateMockData();
         setData(mockData);
@@ -40,12 +39,16 @@ import { API_CONFIG } from '../config/constants';
         return;
       }
 
-      const response = await api.getCalls({
-        limit: API_CONFIG.CALLS_LIMIT.DASHBOARD, 
-        ...filters,
-      });
+      const [callsResponse, timelineResponse] = await Promise.all([
+        api.getCalls({
+          limit: API_CONFIG.CALLS_LIMIT.DASHBOARD, 
+          ...filters,
+        }),
+        api.getTimelineAggregated(filters),
+      ]);
 
-      const transformedData = processApiData.transformCallsData(response);
+      const transformedData = processApiData.transformCallsData(callsResponse);
+      const transformedTimeline = processApiData.transformTimelineAggregated(timelineResponse);
       
       if (transformedData.length === 0) {
         console.warn('No data returned from API, using mock data');
@@ -54,13 +57,13 @@ import { API_CONFIG } from '../config/constants';
         setUsingMockData(true);
       } else {
         setData(transformedData);
+        setTimelineData(transformedTimeline);
         setUsingMockData(false);
       }
     } catch (err) {
       console.error('Error fetching data from API:', err);
       console.log('Falling back to mock data');
       
-      // Fallback to mock data on error
       const mockData = generateMockData();
       setData(mockData);
       setUsingMockData(true);
@@ -70,9 +73,9 @@ import { API_CONFIG } from '../config/constants';
     }
   }, [apiAvailable, filters]);
 
-
   return {
     data,
+    timelineData,
     loading,
     error,
     usingMockData,
@@ -80,8 +83,6 @@ import { API_CONFIG } from '../config/constants';
     refetch: fetchData,
   };
 };
-
-// Hook for statistics data
 
 export const useStatsData = () => {
   const [stats, setStats] = useState({
@@ -121,8 +122,6 @@ export const useStatsData = () => {
   return { stats, loading, error };
 };
 
-// Hook for forecast data
-
 export const useForecastData = (params = {}) => {
   const [forecast, setForecast] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -148,8 +147,6 @@ export const useForecastData = (params = {}) => {
 
   return { forecast, loading, error };
 };
-
-// Hook for submitting new emergency calls
 
 export const useSubmitCall = () => {
   const [submitting, setSubmitting] = useState(false);

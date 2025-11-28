@@ -11,7 +11,6 @@ export const filterData = (data, filters) => {
     const typeMatch = filters.types.length === 0 || filters.types.includes(item.emergencyType);
     const townMatch = !filters.district || item.district === filters.district;
 
-    // Log only first item to avoid spam
     if (item.id === data[0].id) {
       console.log("FILTER DEBUG - first item check:", {
         dateMatch,
@@ -35,7 +34,8 @@ export const calculateKPIs = (data) => {
   const totalCalls = data.length;
   const typeCounts = data.reduce((acc, curr) => {
     acc[curr.emergencyType] = (acc[curr.emergencyType] || 0) + 1; 
-    return acc;}, {});
+    return acc;
+  }, {});
     
   const mostCommonType = Object.entries(typeCounts).sort((a, b) => b[1] - a[1])[0][0];
   const avgAge = Math.round(data.reduce((sum, d) => sum + (d.callerAge || 0), 0) / data.length); 
@@ -60,11 +60,12 @@ export const aggregateTimelineData = (data) => {
 
 export const aggregateTypeData = (data) => {
   const counts = {};
-  data.forEach(item => { counts[item.emergencyType] = (counts[item.emergencyType] || 0) + 1; }); 
+  data.forEach(item => {
+    counts[item.emergencyType] = (counts[item.emergencyType] || 0) + 1;
+  }); 
   return Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
     .map(([type, count]) => ({ type, count }));
-
 };
 
 export const aggregateAgeData = (data) => {
@@ -105,21 +106,5 @@ export const detectAnomalies = (data, threshold = 2) => {
     ...item,
     isAnomaly: Math.abs(item.value - mean) > (threshold * stdDev),
     zScore: (item.value - mean) / stdDev
-  }));
-};
-
-export const detectTimelineAnomalies = (timelineData, threshold = 2) => {
-  if (!timelineData || timelineData.length === 0) return [];
-  
-  const values = timelineData.map(d => d.count);
-  const mean = values.reduce((a, b) => a + b, 0) / values.length;
-  const variance = values.reduce((sq, n) => sq + Math.pow(n - mean, 2), 0) / values.length;
-  const stdDev = Math.sqrt(variance);
-  
-  return timelineData.map(item => ({
-    ...item,
-    isAnomaly: Math.abs(item.count - mean) > (threshold * stdDev),
-    zScore: stdDev > 0 ? ((item.count - mean) / stdDev).toFixed(2) : 0,
-    avgValue: Math.round(mean)
   }));
 };
