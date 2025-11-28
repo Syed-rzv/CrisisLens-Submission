@@ -1,6 +1,6 @@
 # CrisisLens by Team Arcane - Emergency Response Analytics Platform 
 
-This README contains information about setup, directory and some troubleshooting tips as well.
+This README contains information about setup, directory and some troubleshooting tips as well. Please follow the commands accurately.
 
 ## Software Prerequisites
 
@@ -13,7 +13,7 @@ This README contains information about setup, directory and some troubleshooting
 
 1. Download from: https://www.docker.com/products/docker-desktop/
 2. Run the installer and follow prompts
-3. If prompted to install WSL 2, accept the installation
+3. If prompted to install WSL 2, accept the installation (It is likely that a command prompt will appear, and prompt you to press any key to start WSL 2 installation)
 4. After installation, launch Docker Desktop and ensure it's running (check system tray)
 
 ### Installing Git
@@ -25,9 +25,17 @@ This README contains information about setup, directory and some troubleshooting
 git --version
 ```
 
-### Installing Git LFS
+### Installing Git LFS 
 
-**Option A (Recommended):**
+Git LFS now comes installed with Git by default, you can verify installation in cmd by typing: 
+
+```cmd
+git lfs version
+```
+
+## If LFS is not installed, please follow the steps below.
+
+**Option A:**
 
 ```cmd
 winget install GitHub.GitLFS
@@ -41,7 +49,7 @@ winget install GitHub.GitLFS
 git lfs install
 ```
 
-**Why Git LFS is needed:** Database files (169 MB) require LFS to download properly. Without it, files will only be a few KB.
+**Why Git LFS is needed:** Database files (~169 MB) require LFS to download properly. Without it, files will only be a few KB.
 
 ## Running the Application
 
@@ -64,7 +72,7 @@ cd database
 dir
 ```
 
-Check that `06_emergency_data.sql` is ~337 MB (not a few KB).
+Check that `06_emergency_data.sql` is around 160 MB (not a few KB).
 
 If files are small, run: 
 ```cmd
@@ -78,14 +86,15 @@ cd ..
 docker compose --env-file .env.docker up
 ```
 
-First time: Docker downloads images (~2 GB) and imports data (~5-10 minutes).
+First time: Docker downloads images and imports data (~5-10 minutes).
 
-Wait for these messages:
+Wait for these messages at the end after all containers are set up:
 
 ```
-crisislens-mysql    | ready for connections
-crisislens-backend  | Running on http://0.0.0.0:5000
-crisislens-frontend | Local: http://localhost:5173
+crisislens-backend   |  * Running on all addresses (0.0.0.0)
+crisislens-backend   |  * Running on http://127.0.0.1:5000
+crisislens-backend   |  * Running on http://172.18.0.6:5000
+crisislens-backend   | Press CTRL+C to quit
 ```
 
 4. Access the system:
@@ -100,44 +109,12 @@ To stop: Press `Ctrl + C` (twice if needed) or run:
 docker compose --env-file .env.docker down
 ```
 
-## Project Structure
-
-```
-CrisisLens-Submission/
-├── frontend/                 # React + Vite + Tailwind CSS
-│   ├── src/
-│   │   ├── components/      # Dashboard, charts, UI components
-│   │   ├── pages/           # Temporal analysis, forecasting, anomalies, login
-│   │   ├── context/         # Filters and Authentication context
-│   │   ├── hooks/           # Data fetching and processing
-│   │   └── utils/           # Helper functions and data transformation
-│   └── Dockerfile
-│
-├── crisislens-API/          # Flask Backend API
-│   ├── app.py              # Main Flask application and routes
-│   ├── auth.py             # Authentication and JWT tokens
-│   ├── routes/             # API endpoints (data, forecasting, anomalies, uploads)
-│   ├── Classifier/         # ML models (XGBoost, SARIMA, Isolation Forest)
-│   ├── worker.py           # Redis background job processing
-│   └── Dockerfile
-│
-├── database/                # Database initialization scripts
-│   ├── 02_users.sql        # Admin and analyst user accounts
-│   ├── 03_anomaly_events.sql
-│   ├── 04_forecasted_calls.sql
-│   ├── 05_enriched_calls.sql
-│   └── 06_emergency_data.sql  # 663K+ emergency call records
-│
-├── docker-compose.yml       # Docker service orchestration
-├── .env.docker             # Environment variables and database credentials
-└── README.md               # This file
-```
 
 **Key Folders:**
 - **frontend/src/** - React components and pages for the dashboard
 - **crisislens-API/** - Main backend folder with flask API script, forecasting, etc.
 - **database/** - SQL scripts for database initialization and sample data
-- **Classifier/** - Machine learning Classifier
+- **Classifier/** - Machine learning Classifier module
 
 ## Troubleshooting
 
