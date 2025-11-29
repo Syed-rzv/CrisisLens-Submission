@@ -2,6 +2,10 @@
 
 This README contains information about setup, directory and some troubleshooting tips as well. Please follow the commands accurately.
 
+## Video 
+
+[![Watch the CrisisLens Video](https://img.youtube.com/vi/rXwxeOp-iQY/maxresdefault.jpg)](https://www.youtube.com/watch?v=rXwxeOp-iQY)
+
 ## Software Prerequisites
 
 **Required:**
