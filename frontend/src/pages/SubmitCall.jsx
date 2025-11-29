@@ -248,7 +248,7 @@ export default function SubmitCall() {
                 onChange={(e) => setFormData({...formData, description: e.target.value})}
                 className="w-full bg-gray-900 border border-gray-700 text-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:border-green-500"
                 rows="4"
-                placeholder="e.g., Male caller reporting chest pain and difficulty breathing..."
+                placeholder="e.g., Building is on fire with heavy smoke..."
                 required
               />
             </div>

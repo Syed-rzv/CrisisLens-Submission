@@ -8,7 +8,6 @@ import os
 
 
 class EmergencyClassifier:
-    #Loads XGBoost model
     
     def __init__(self, model_path=None):
         if model_path is None:
@@ -40,14 +39,10 @@ class EmergencyClassifier:
             raise
     
     def predict(self, text):
-        """Predict emergency type from call description."""
         if not self.model or not self.vectorizer:
             raise Exception("Model not loaded properly")
         
-        # Vectorize text
         text_vec = self.vectorizer.transform([text])
-        
-        # Predict
         prediction_encoded = self.model.predict(text_vec)[0]
         
         if self.label_encoder:
@@ -66,13 +61,11 @@ class SubtypeClassifier:
         
         self.classifiers = {}
         
-        # Load all three subtype models
         for emergency_type in ['EMS', 'Fire', 'Traffic']:
             model_path = os.path.join(models_dir, f'XGBoost_{emergency_type}_Subtype.pkl')
             self.classifiers[emergency_type] = self._load_model(model_path, emergency_type)
     
     def _load_model(self, model_path, emergency_type):
-        """Load a single subtype model."""
         try:
             print(f"Loading {emergency_type} subtype classifier from: {model_path}")
             model_bundle = joblib.load(model_path)
@@ -94,7 +87,6 @@ class SubtypeClassifier:
             return None
     
     def predict(self, text, emergency_type):
-        """Predict subtype based on main emergency type."""
         if emergency_type not in self.classifiers:
             print(f"  No subtype classifier for {emergency_type}")
             return "Unknown"
@@ -106,13 +98,9 @@ class SubtypeClassifier:
             return "Unknown"
         
         try:
-            # Vectorize text
             text_vec = classifier['vectorizer'].transform([text])
-            
-            # Predict
             prediction_encoded = classifier['model'].predict(text_vec)[0]
             
-            # Decode label
             if classifier.get('label_encoder'):
                 prediction = classifier['label_encoder'].inverse_transform([prediction_encoded])[0]
             else:
@@ -130,8 +118,18 @@ _subtype_classifier = None
 
 
 def classify_call(description):
-  
     global _main_classifier
+    
+    desc_lower = description.lower()
+    
+    fire_keywords = ['fire', 'flames', 'flame', 'burning', 'smoke', 'blaze']
+    if any(kw in desc_lower for kw in fire_keywords):
+        if not any(ex in desc_lower for ex in ['firearm', 'firework', 'gunfire']):
+            return "Fire"
+    
+    traffic_keywords = ['crash', 'collision', 'accident', 'vehicle accident', 'car accident']
+    if any(kw in desc_lower for kw in traffic_keywords):
+        return "Traffic"
     
     if _main_classifier is None:
         _main_classifier = EmergencyClassifier()
@@ -140,7 +138,6 @@ def classify_call(description):
 
 
 def classify_subtype(description, emergency_type):
-    
     global _subtype_classifier
     
     if _subtype_classifier is None:
