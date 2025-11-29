@@ -2,6 +2,13 @@
 
 This README contains information about setup, directory and some troubleshooting tips as well. Please follow the commands accurately.
 
+## Video 
+Click to be re-directed to the video 
+
+[![Watch the CrisisLens Video](https://img.youtube.com/vi/rXwxeOp-iQY/maxresdefault.jpg)](https://www.youtube.com/watch?v=rXwxeOp-iQY)
+
+**or** follow the link: https://youtube.com/shorts/rXwxeOp-iQY?feature=share
+
 ## Software Prerequisites
 
 **Required:**
@@ -100,7 +107,7 @@ crisislens-backend   | Press CTRL+C to quit
 4. Access the system:
 - Open browser: http://localhost:3000
 - Username: `admin`
-- Password: `admin123`
+- Password: `dubai2025`
 
 ### Stopping the Application
 
@@ -172,6 +179,6 @@ Stop any local MySQL services, or modify port mappings in `docker-compose.yml`.
 
 **Admin Account:**
 - Username: `admin`
-- Password: `admin123`
+- Password: `dubai2025`
 
 For the best experience, use Chrome or Edge browser.
