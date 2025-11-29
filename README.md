@@ -3,9 +3,11 @@
 This README contains information about setup, directory and some troubleshooting tips as well. Please follow the commands accurately.
 
 ## Video 
-Click to be re-directed to the video or follow the link: https://youtube.com/shorts/rXwxeOp-iQY?feature=share
+Click to be re-directed to the video 
 
 [![Watch the CrisisLens Video](https://img.youtube.com/vi/rXwxeOp-iQY/maxresdefault.jpg)](https://www.youtube.com/watch?v=rXwxeOp-iQY)
+
+**or** follow the link: https://youtube.com/shorts/rXwxeOp-iQY?feature=share
 
 ## Software Prerequisites
 
