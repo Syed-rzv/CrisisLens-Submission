@@ -111,6 +111,9 @@ CMD should look something like this:
 - Open browser: http://localhost:3000
 - Username: `admin`
 - Password: `dubai2025`
+  
+No space before or after both the username and password.
+
 
 ### Stopping the Application
 
@@ -118,7 +121,7 @@ To stop: Press `Ctrl + C` (twice if needed) or run:
 ```cmd
 docker compose --env-file .env.docker down
 ```
-
+### Please refer to the uploaded user manual on Moodle for a detailed guide.
 
 **Key Folders:**
 - **frontend/src/** - React components and pages for the dashboard
