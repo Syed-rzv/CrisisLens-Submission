@@ -1,6 +1,6 @@
 # CrisisLens by Team Arcane - Emergency Response Analytics Platform 
 
-This README contains information about setup, directory and some troubleshooting tips as well. Please follow the commands accurately.
+This README contains information about setup, directory and some troubleshooting tips as well. Please follow the commands accurately in the command prompt terminal.
 
 ## Video 
 Click the thumbnail below to be re-directed to the video 
