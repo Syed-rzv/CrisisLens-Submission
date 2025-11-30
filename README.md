@@ -126,7 +126,7 @@ docker compose --env-file .env.docker down
 ```
 ### Please refer to the uploaded user manual on Moodle for a detailed guide.
 
-**Key Folders:**
+## Key Folders:
 - **frontend/src/** - React components and pages for the dashboard
 - **crisislens-API/** - Main backend folder with flask API script, forecasting, etc.
 - **database/** - SQL scripts for database initialization and sample data
