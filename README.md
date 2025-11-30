@@ -166,6 +166,8 @@ docker compose --env-file .env.docker up
 **Port 3306 or 5000 already in use:**
 Stop any local MySQL services, or modify port mappings in `docker-compose.yml`.
 
+**Doing a hard refresh with ctrl + shift + R will clear any browser cache in case of issues with multiple re-runs**
+
 ## Expected Timings
 
 **First-Time Setup:**
