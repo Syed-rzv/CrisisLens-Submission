@@ -3,7 +3,7 @@
 This README contains information about setup, directory and some troubleshooting tips as well. Please follow the commands accurately.
 
 ## Video 
-Click to be re-directed to the video 
+Click the thumbnail below to be re-directed to the video 
 
 [![Watch the CrisisLens Video](https://img.youtube.com/vi/rXwxeOp-iQY/maxresdefault.jpg)](https://www.youtube.com/watch?v=rXwxeOp-iQY)
 
@@ -95,7 +95,7 @@ docker compose --env-file .env.docker up
 
 First time: Docker downloads images and imports data (~5-10 minutes).
 
-Wait for these messages at the end after all containers are set up:
+Wait for these messages at the end, after all containers are set up:
 
 ```
 crisislens-backend   |  * Running on all addresses (0.0.0.0)
@@ -103,6 +103,8 @@ crisislens-backend   |  * Running on http://127.0.0.1:5000
 crisislens-backend   |  * Running on http://172.18.0.6:5000
 crisislens-backend   | Press CTRL+C to quit
 ```
+CMD should look something like this:
+![Docker Setup Complete](Initialised.png)
 
 4. Access the system:
 - Open browser: http://localhost:3000
