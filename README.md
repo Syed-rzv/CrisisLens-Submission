@@ -48,6 +48,8 @@ git lfs version
 winget install GitHub.GitLFS
 ```
 
+or just run git lfs install
+
 **Option B (Manual):**
 1. Download from: https://git-lfs.github.com/
 2. Run installer
