@@ -104,6 +104,7 @@ crisislens-backend   |  * Running on http://172.18.0.6:5000
 crisislens-backend   | Press CTRL+C to quit
 ```
 CMD should look something like this:
+
 ![Docker Setup Complete](Initialised.png)
 
 4. Access the system:
