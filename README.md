@@ -94,7 +94,7 @@ git lfs pull
 cd ..
 docker compose --env-file .env.docker up
 ```
-
+**It's important to run the exact same docker commands (with the env file mentioned as shown above)
 First time: Docker downloads images and imports data (~5-10 minutes).
 
 Wait for these messages at the end, after all containers are set up:
